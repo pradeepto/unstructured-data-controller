@@ -14,7 +14,7 @@ An `UnstructuredDataPipeline` custom resource chains processing stages. The oper
 | Embed | `VectorEmbeddingsGenerator` | Generate vector embeddings and store them in a Snowflake table (per-stage `queryConfig`) |
 | Sync | `DestinationSyncer` | Copy processed outputs to a destination S3 bucket |
 
-Operator-level infrastructure — filestore, docling, embedding/VLM endpoints, Google Drive and LDAP settings, Snowflake connection — is configured in a `ControllerConfig` custom resource.
+Operator-level infrastructure (filestore, docling, embedding/VLM endpoints, Google Drive and LDAP settings, Snowflake connection) is configured in a `ControllerConfig` custom resource.
 
 All custom resources are served under the `operator.dataverse.redhat.com/v1alpha1` API group.
 
@@ -22,23 +22,23 @@ All custom resources are served under the `operator.dataverse.redhat.com/v1alpha
 
 The MCP server (`cmd/unstructured-data-mcp-server`) lets agents discover pipelines and query them:
 
-- `list_unstructured_data_pipelines_for_user` — pipelines the authenticated user can access
-- `get_chunks_for_embeddings` — semantic (vector) search over a pipeline's documents
-- `get_processed_document` — full processed Markdown for a document
+- `list_unstructured_data_pipelines_for_user`: pipelines the authenticated user can access
+- `get_chunks_for_embeddings`: semantic (vector) search over a pipeline's documents
+- `get_processed_document`: full processed Markdown for a document
 
-Users authenticate through your OIDC identity provider (Keycloak, Red Hat SSO, Okta, Azure AD, …); the server acts as an OAuth Authorization Server proxy with PKCE and dynamic client registration. See [docs/mcp-server.md](docs/mcp-server.md).
+Users authenticate through your OIDC identity provider (Keycloak, Red Hat SSO, Okta, Azure AD); the server acts as an OAuth Authorization Server proxy with PKCE and dynamic client registration. See [docs/mcp-server.md](docs/mcp-server.md).
 
 ## Documentation
 
-- [Setting up LocalStack](docs/setup-localstack.md) — local S3/SQS for development
-- [Setting up the controller](docs/setup-unstructured-controller.md) — full local walkthrough (LocalStack, docling, Ollama)
+- [Setting up LocalStack](docs/setup-localstack.md): local S3/SQS for development
+- [Setting up the controller](docs/setup-unstructured-controller.md): full local walkthrough (LocalStack, docling, Ollama)
 - [Processing your first file](docs/creating-sample-file.md)
-- [MCP server](docs/mcp-server.md) — configuration, endpoints, OAuth flow, tools
-- [MCP skill file](skills/unstructured-data-mcp-skill.md) — ready-to-use instructions for AI assistants
+- [MCP server](docs/mcp-server.md): configuration, endpoints, OAuth flow, tools
+- [MCP skill file](skills/unstructured-data-mcp-skill.md): usage instructions for AI assistants
 
 ## Quick start (local development)
 
-Prerequisites: Go 1.25+, `kubectl`, Docker or Podman, and a Kubernetes cluster (e.g. [Kind](https://kind.sigs.k8s.io/)). The full walkthrough also uses [LocalStack](https://localstack.cloud/), [docling-serve](https://github.com/docling-project/docling-serve), and [Ollama](https://ollama.com/) — see the [setup guide](docs/setup-unstructured-controller.md) for details, including pointing the ControllerConfig at a locally running docling.
+Prerequisites: Go 1.25+, `kubectl`, Docker or Podman, and a Kubernetes cluster (e.g. [Kind](https://kind.sigs.k8s.io/)). The full walkthrough also uses [LocalStack](https://localstack.cloud/), [docling-serve](https://github.com/docling-project/docling-serve), and [Ollama](https://ollama.com/). See the [setup guide](docs/setup-unstructured-controller.md) for details, including pointing the ControllerConfig at a locally running docling.
 
 ```bash
 # 1. Namespace and secrets (see setup guide for prerequisites)
@@ -74,7 +74,8 @@ To generate a consolidated installer manifest (CRDs + controller deployment) for
 
 ```bash
 make build-installer IMG=<registry>/unstructured-data-controller:tag
-# → dist/install.yaml, apply with: kubectl apply -f dist/install.yaml
+# writes dist/install.yaml
+kubectl apply -f dist/install.yaml
 ```
 
 ## Development
