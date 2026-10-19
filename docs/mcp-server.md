@@ -142,7 +142,7 @@ If your client does not support OAuth discovery, you can manually obtain a token
 
 ### Pipeline allow-list (`?pipelines=`)
 
-The `/mcp` endpoint accepts an optional `pipelines` query parameter — a comma-separated list of pipeline names:
+The `/mcp` endpoint accepts an optional `pipelines` query parameter with a comma-separated list of pipeline names:
 
 ```
 http://localhost:8080/mcp?pipelines=my-pipeline,other-pipeline
@@ -160,7 +160,7 @@ The full authorization flow follows the [MCP Authorization specification (2025-1
 4. **Client → `GET /auth/authorize`** — starts authorization code flow with PKCE (S256)
 5. **Server → redirects to SSO** — user authenticates with the external identity provider
 6. **SSO → `GET /auth/callback/oidc`** — server receives SSO callback, exchanges code for token
-7. **Server → redirects browser to `GET /auth/complete/{token}`** — a clean completion URL (no OAuth parameters); the page then redirects to the client with the authorization code and state
+7. **Server → redirects browser to `GET /auth/complete/{token}`**: a clean completion URL (no OAuth parameters); the page then redirects to the client with the authorization code and state
 8. **Client → `POST /auth/token`** — exchanges authorization code + PKCE verifier for access token
 9. **Client → `POST /mcp`** — uses Bearer token for all subsequent MCP requests
 10. **Token refresh** — client sends `grant_type=refresh_token` to `/auth/token` when the access token expires
@@ -184,15 +184,15 @@ The full authorization flow follows the [MCP Authorization specification (2025-1
 
 ### `list_unstructured_data_pipelines_for_user`
 
-Lists the UnstructuredDataPipeline custom resources the authenticated user can access — pipelines whose Snowflake database the user can query.
+Lists the UnstructuredDataPipeline custom resources the authenticated user can access (pipelines whose Snowflake database the user can query).
 
 **Parameters:** None (uses OAuth token from context).
 
 **Returns:** A JSON array of pipelines the user can access, each with:
 
-- `name` — pipeline CR name
-- `description` — human-readable summary of what the pipeline does
-- `guidance` — optional usage guidance for agents (omitted when not set)
+- `name`: pipeline CR name
+- `description`: human-readable summary of what the pipeline does
+- `guidance`: optional usage guidance for agents (omitted when not set)
 
 Pipelines are filtered server-side by the user's Snowflake database access; a connection can be further restricted with the `?pipelines=` query parameter (see [Client Configuration](#client-configuration)).
 
@@ -205,7 +205,7 @@ Searches for relevant text chunks in a data product using vector cosine similari
 | Parameter          | Required | Description                                                                                                                                  |
 | ------------------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `pipeline_name`    | Yes      | Name of the UnstructuredDataPipeline. If not known, call `list_unstructured_data_pipelines_for_user` first and pick the matching pipeline.   |
-| `query`            | Yes      | The search query to find relevant chunks (vector similarity — natural-language queries work best).                                           |
+| `query`            | Yes      | The search query to find relevant chunks (vector similarity; natural-language queries work best).                                           |
 | `file_path_filter` | No       | Glob pattern to scope the search to files matching this path (e.g. `*/README.md`, `repo-name/docs/*`).                                        |
 | `limit`            | No       | Number of chunks to return. Defaults to 10.                                                                                                  |
 
@@ -214,7 +214,7 @@ Searches for relevant text chunks in a data product using vector cosine similari
 1. User asks a question (no pipeline specified).
 2. Agent calls `list_unstructured_data_pipelines_for_user` to get pipeline names and descriptions.
 3. Agent matches the user's question to a pipeline based on its description.
-4. If confident, agent calls `get_chunks_for_embeddings` with the resolved `pipeline_name` — the Snowflake database, schema, and table are resolved server-side from the pipeline.
+4. If confident, agent calls `get_chunks_for_embeddings` with the resolved `pipeline_name`; the Snowflake database, schema, and table are resolved server-side from the pipeline.
 5. If ambiguous (multiple pipelines could match), agent asks the user to clarify.
 
 ### `get_processed_document`
@@ -229,7 +229,7 @@ Retrieves the processed document output (full Markdown from the pipeline's Docum
 | `file_id`          | One of `file_id` / `file_path_filter` | The exact file identifier to look up. Takes priority over `file_path_filter` when both are provided.        |
 | `file_path_filter` | One of `file_id` / `file_path_filter` | Glob pattern to retrieve processed documents from matching files (e.g. `*/README.md`).                      |
 
-Use this when chunks from `get_chunks_for_embeddings` don't provide enough context — e.g. follow up with the `file_id` of the top matching chunk.
+Use this when chunks from `get_chunks_for_embeddings` don't provide enough context (for example, to follow up with the `file_id` of the top matching chunk).
 
 ## Package Structure
 
@@ -268,7 +268,7 @@ func (p *GoogleProvider) RefreshToken(ctx context.Context, refreshToken string) 
 func (p *GoogleProvider) IntrospectToken(ctx context.Context, token string) (*IntrospectionResponse, error) { ... }
 ```
 
-3. Wire the provider in `cmd/unstructured-data-mcp-server/main.go` — the entry point currently instantiates `auth.NewGenericProvider` directly, so switch or parameterize the constructor call there
+3. Wire the provider in `cmd/unstructured-data-mcp-server/main.go`. The entry point currently instantiates `auth.NewGenericProvider` directly, so switch or parameterize the constructor call there
 
 No changes needed to the middleware, OAuth server endpoints, or MCP layer.
 
