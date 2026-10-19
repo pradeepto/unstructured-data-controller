@@ -41,8 +41,8 @@ kubectl apply -f config/samples/unstructured-secret.yaml -n unstructured-control
 ```
 
 This creates:
-- `operator-secret` — operator-level credentials used by the ControllerConfig: filestore S3 (`FILE_STORE_AWS_*`), docling (`DOCLING_USER_KEY`), embedding and VLM endpoints/keys (`NOMIC_*`, `GEMINI_*`, `VLM_API_KEY`), Git source tokens (`SOURCE_CRAWLER_GITLAB_TOKEN`), and the groups-reader Google service account
-- `pipeline-secret` — pipeline-level credentials referenced by the pipeline and its stages via `secretRef`: source S3 (`SOURCE_S3_*`), source Google Drive service account (`SOURCE_GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON`), and destination S3 (`DESTINATION_S3_*`)
+- `operator-secret`: operator-level credentials for the ControllerConfig, covering filestore S3 (`FILE_STORE_AWS_*`), docling (`DOCLING_USER_KEY`), embedding and VLM endpoints/keys (`NOMIC_*`, `GEMINI_*`, `VLM_API_KEY`), Git source tokens (`SOURCE_CRAWLER_GITLAB_TOKEN`), and the groups-reader Google service account
+- `pipeline-secret`: pipeline-level credentials referenced by the pipeline and its stages via `secretRef`, covering source S3 (`SOURCE_S3_*`), source Google Drive service account (`SOURCE_GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON`), and destination S3 (`DESTINATION_S3_*`)
 
 ### 5. Setup local cache directory
 
