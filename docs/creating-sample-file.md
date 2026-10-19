@@ -47,7 +47,7 @@ kubectl get vectorembeddingsgenerator -n unstructured-controller-namespace
 kubectl get destinationsyncer -n unstructured-controller-namespace
 
 # View controller logs: the controller runs in the terminal where you started
-# it with `make run` (see the setup guide) — its output appears there
+# it with `make run` (see the setup guide), so its output appears there
 ```
 
 ---
